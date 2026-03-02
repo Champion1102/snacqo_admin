@@ -134,7 +134,7 @@ export function CampusesPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 sm:p-6 space-y-6">
       <h1 className="text-2xl font-bold text-slate-800">Campuses</h1>
       <p className="text-sm text-slate-600">
         Campuses where you deliver. Customers who select campus delivery get free shipping. Add at least one campus to enable campus delivery at checkout.

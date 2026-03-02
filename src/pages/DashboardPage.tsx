@@ -40,7 +40,7 @@ export function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-[200px]">
+      <div className="p-4 sm:p-6 flex items-center justify-center min-h-[200px]">
         <div className="text-slate-500">Loading…</div>
       </div>
     );
@@ -48,7 +48,7 @@ export function DashboardPage() {
 
   if (error) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
           {error}
         </div>
@@ -67,50 +67,50 @@ export function DashboardPage() {
   }));
 
   return (
-    <div className="p-6 space-y-8">
-      <h1 className="text-2xl font-bold text-slate-800">Dashboard</h1>
+    <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
+      <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Dashboard</h1>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Orders today</p>
-          <p className="mt-1 text-2xl font-bold text-slate-800">{orders.today}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Orders today</p>
+          <p className="mt-1 text-lg sm:text-2xl font-bold text-slate-800">{orders.today}</p>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Orders this week</p>
-          <p className="mt-1 text-2xl font-bold text-slate-800">{orders.thisWeek}</p>
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Orders this week</p>
+          <p className="mt-1 text-lg sm:text-2xl font-bold text-slate-800">{orders.thisWeek}</p>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Revenue today</p>
-          <p className="mt-1 text-2xl font-bold text-slate-800">{formatPaise(revenue.todayPaise)}</p>
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Revenue today</p>
+          <p className="mt-1 text-lg sm:text-2xl font-bold text-slate-800">{formatPaise(revenue.todayPaise)}</p>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Revenue this week</p>
-          <p className="mt-1 text-2xl font-bold text-slate-800">{formatPaise(revenue.thisWeekPaise)}</p>
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Revenue this week</p>
+          <p className="mt-1 text-lg sm:text-2xl font-bold text-slate-800">{formatPaise(revenue.thisWeekPaise)}</p>
         </div>
       </div>
 
       {/* Delivered & Cancelled */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Total orders</p>
-          <p className="mt-1 text-xl font-bold text-slate-800">{orders.total}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Total orders</p>
+          <p className="mt-1 text-base sm:text-xl font-bold text-slate-800">{orders.total}</p>
         </div>
-        <div className="bg-white rounded-lg border border-green-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Delivered orders</p>
-          <p className="mt-1 text-xl font-bold text-green-700">{orders.delivered}</p>
+        <div className="bg-white rounded-lg border border-green-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Delivered orders</p>
+          <p className="mt-1 text-base sm:text-xl font-bold text-green-700">{orders.delivered}</p>
         </div>
-        <div className="bg-white rounded-lg border border-red-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Cancelled orders</p>
-          <p className="mt-1 text-xl font-bold text-red-700">{orders.cancelled}</p>
+        <div className="bg-white rounded-lg border border-red-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Cancelled orders</p>
+          <p className="mt-1 text-base sm:text-xl font-bold text-red-700">{orders.cancelled}</p>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Active products</p>
-          <p className="mt-1 text-xl font-bold text-slate-800">{counts.activeProducts}</p>
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Active products</p>
+          <p className="mt-1 text-base sm:text-xl font-bold text-slate-800">{counts.activeProducts}</p>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">Active coupons</p>
-          <p className="mt-1 text-xl font-bold text-slate-800">{counts.activeCoupons}</p>
+        <div className="bg-white rounded-lg border border-slate-200 p-3 sm:p-4 shadow-sm">
+          <p className="text-xs sm:text-sm font-medium text-slate-500">Active coupons</p>
+          <p className="mt-1 text-base sm:text-xl font-bold text-slate-800">{counts.activeCoupons}</p>
         </div>
       </div>
 

@@ -79,7 +79,7 @@ export function ProductCreatePage() {
   };
 
   return (
-    <div className="p-6 max-w-2xl">
+    <div className="p-4 sm:p-6 max-w-2xl">
       <h1 className="text-2xl font-bold text-slate-800 mb-6">Add product</h1>
 
       {error && (

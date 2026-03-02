@@ -286,7 +286,7 @@ export function CouponsPage() {
     c.type === 'FREE_SHIPPING' ? 'Free shipping' : c.type === 'PERCENT' ? `${c.value}%` : `₹${(c.value / 100).toFixed(2)}`;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 sm:p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-800">Coupons</h1>
         <button
@@ -326,7 +326,7 @@ export function CouponsPage() {
       {loading ? (
         <div className="text-slate-500 py-8">Loading…</div>
       ) : (
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>

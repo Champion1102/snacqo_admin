@@ -58,8 +58,8 @@ export function OrdersPage() {
   }, [status, page]);
 
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold text-slate-800">Orders</h1>
+    <div className="p-4 sm:p-6 space-y-4">
+      <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Orders</h1>
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-4">
@@ -96,7 +96,7 @@ export function OrdersPage() {
         </div>
       ) : (
         <>
-          <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden overflow-x-auto">
             <table className="min-w-full divide-y divide-slate-200">
               <thead className="bg-slate-50">
                 <tr>
@@ -162,7 +162,7 @@ export function OrdersPage() {
 
           {/* Pagination */}
           {pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <p className="text-sm text-slate-600">
                 Page {pagination.page} of {pagination.totalPages} ({pagination.total} orders)
               </p>

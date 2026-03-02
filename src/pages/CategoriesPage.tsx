@@ -114,7 +114,7 @@ export function CategoriesPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 sm:p-6 space-y-6">
       <h1 className="text-2xl font-bold text-slate-800">Categories</h1>
 
       {/* Add category form */}
@@ -176,7 +176,7 @@ export function CategoriesPage() {
       {loading ? (
         <div className="text-slate-500 py-8">Loading…</div>
       ) : (
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>

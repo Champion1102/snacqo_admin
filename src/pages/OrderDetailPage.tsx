@@ -64,7 +64,7 @@ export function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="text-slate-500">Loading…</div>
       </div>
     );
@@ -72,7 +72,7 @@ export function OrderDetailPage() {
 
   if (error || !order) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
           {error ?? 'Order not found'}
         </div>
@@ -84,7 +84,7 @@ export function OrderDetailPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 sm:p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <Link

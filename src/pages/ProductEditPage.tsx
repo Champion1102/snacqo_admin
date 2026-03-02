@@ -675,7 +675,7 @@ export function ProductEditPage() {
 
   if (loading && !product) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="text-slate-500">Loading…</div>
       </div>
     );
@@ -683,7 +683,7 @@ export function ProductEditPage() {
 
   if (error && !product) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
           {error}
         </div>
@@ -697,7 +697,7 @@ export function ProductEditPage() {
   if (!product) return null;
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
       <div>
         <Link to="/products" className="text-sm text-slate-600 hover:text-slate-900 mb-1 inline-block">
           ← Back to products
