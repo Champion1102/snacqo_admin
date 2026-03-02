@@ -10,7 +10,6 @@ import {
 const STATUS_OPTIONS: { value: '' | OrderStatus; label: string }[] = [
   { value: '', label: 'All statuses' },
   { value: 'PENDING', label: 'Pending' },
-  { value: 'PAID', label: 'Paid' },
   { value: 'PROCESSING', label: 'Processing' },
   { value: 'SHIPPED', label: 'Shipped' },
   { value: 'OUT_FOR_DELIVERY', label: 'Out for delivery' },

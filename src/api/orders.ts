@@ -2,7 +2,6 @@ import { request } from './client';
 
 export type OrderStatus =
   | 'PENDING'
-  | 'PAID'
   | 'PROCESSING'
   | 'SHIPPED'
   | 'OUT_FOR_DELIVERY'
@@ -65,6 +64,7 @@ export interface OrderDetail {
   razorpayOrderId: string | null;
   razorpayPaymentId: string | null;
   razorpaySignature: string | null;
+  razorpayPaymentStatus: string | null; // Razorpay status: captured | failed | authorized | created | refunded
   createdAt: string;
   updatedAt: string;
   items: OrderItemDetail[];

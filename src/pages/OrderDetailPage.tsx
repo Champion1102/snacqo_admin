@@ -10,7 +10,6 @@ import {
 
 const STATUS_OPTIONS: OrderStatus[] = [
   'PENDING',
-  'PAID',
   'PROCESSING',
   'SHIPPED',
   'OUT_FOR_DELIVERY',
@@ -149,6 +148,26 @@ export function OrderDetailPage() {
               >
                 {order.status}
               </span>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-slate-500">Payment</dt>
+            <dd>
+              {order.razorpayPaymentStatus ? (
+                <span
+                  className={`inline-flex px-2 py-0.5 text-xs font-medium rounded ${
+                    order.razorpayPaymentStatus === 'captured'
+                      ? 'bg-green-100 text-green-800'
+                      : order.razorpayPaymentStatus === 'failed'
+                        ? 'bg-red-100 text-red-800'
+                        : 'bg-slate-100 text-slate-800'
+                  }`}
+                >
+                  {order.razorpayPaymentStatus}
+                </span>
+              ) : (
+                <span className="text-slate-500">—</span>
+              )}
             </dd>
           </div>
           <div>

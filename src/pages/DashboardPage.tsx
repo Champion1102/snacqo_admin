@@ -1,6 +1,30 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  AreaChart,
+  Area,
+} from 'recharts';
 import { getDashboard, formatPaise, type DashboardResponse } from '@/api/dashboard';
+
+const STATUS_COLORS: Record<string, string> = {
+  PENDING: '#94a3b8',
+  PROCESSING: '#f59e0b',
+  SHIPPED: '#0ea5e9',
+  OUT_FOR_DELIVERY: '#8b5cf6',
+  DELIVERED: '#22c55e',
+  CANCELLED: '#ef4444',
+};
 
 export function DashboardPage() {
   const [data, setData] = useState<DashboardResponse | null>(null);
@@ -34,7 +58,13 @@ export function DashboardPage() {
 
   if (!data) return null;
 
-  const { orders, revenue, lowStock, counts } = data;
+  const { orders, revenue, lowStock, counts, productWiseOrders, ordersByDay, ordersByStatus } = data;
+
+  const ordersByDayFormatted = ordersByDay.map((d) => ({
+    ...d,
+    dateShort: new Date(d.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+    revenue: Math.round(d.revenuePaise / 100),
+  }));
 
   return (
     <div className="p-6 space-y-8">
@@ -60,8 +90,20 @@ export function DashboardPage() {
         </div>
       </div>
 
-      {/* Counts */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* Delivered & Cancelled */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+          <p className="text-sm font-medium text-slate-500">Total orders</p>
+          <p className="mt-1 text-xl font-bold text-slate-800">{orders.total}</p>
+        </div>
+        <div className="bg-white rounded-lg border border-green-200 p-4 shadow-sm">
+          <p className="text-sm font-medium text-slate-500">Delivered orders</p>
+          <p className="mt-1 text-xl font-bold text-green-700">{orders.delivered}</p>
+        </div>
+        <div className="bg-white rounded-lg border border-red-200 p-4 shadow-sm">
+          <p className="text-sm font-medium text-slate-500">Cancelled orders</p>
+          <p className="mt-1 text-xl font-bold text-red-700">{orders.cancelled}</p>
+        </div>
         <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
           <p className="text-sm font-medium text-slate-500">Active products</p>
           <p className="mt-1 text-xl font-bold text-slate-800">{counts.activeProducts}</p>
@@ -70,6 +112,90 @@ export function DashboardPage() {
           <p className="text-sm font-medium text-slate-500">Active coupons</p>
           <p className="mt-1 text-xl font-bold text-slate-800">{counts.activeCoupons}</p>
         </div>
+      </div>
+
+      {/* Charts row */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {/* Orders & Revenue last 30 days */}
+        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-800 mb-4">Orders & revenue (last 30 days)</h2>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={ordersByDayFormatted} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="dateShort" tick={{ fontSize: 11 }} />
+                <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
+                <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} tickFormatter={(v) => `₹${v}`} />
+                <Tooltip
+                  formatter={(value: number, name: string) => (name === 'Revenue (₹)' ? `₹${value}` : value)}
+                  labelFormatter={(_, payload) => (payload?.[0]?.payload as { dateShort?: string })?.dateShort}
+                />
+                <Area yAxisId="left" type="monotone" dataKey="orders" name="Orders" stroke="#0ea5e9" fill="#0ea5e9" fillOpacity={0.3} />
+                <Area yAxisId="right" type="monotone" dataKey="revenue" name="Revenue (₹)" stroke="#22c55e" fill="#22c55e" fillOpacity={0.2} />
+                <Legend />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Orders by status (pie) */}
+        <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-800 mb-4">Orders by status</h2>
+          {ordersByStatus.length === 0 ? (
+            <div className="h-72 flex items-center justify-center text-slate-500 text-sm">No orders yet</div>
+          ) : (
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={ordersByStatus}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    label={({ name, value }) => `${name}: ${value}`}
+                  >
+                    {ordersByStatus.map((entry, index) => (
+                      <Cell key={entry.status} fill={STATUS_COLORS[entry.status] ?? `hsl(${index * 60}, 70%, 50%)`} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value: number) => [value, 'Orders']} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Product-wise orders (top 10) */}
+      <div>
+        <h2 className="text-lg font-semibold text-slate-800 mb-3">Product-wise orders (delivered, top 10)</h2>
+        {productWiseOrders.length === 0 ? (
+          <div className="bg-white rounded-lg border border-slate-200 p-6 text-slate-500 text-sm">
+            No delivered orders yet.
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={productWiseOrders} layout="vertical" margin={{ top: 5, right: 20, left: 100, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="productName" width={90} tick={{ fontSize: 11 }} />
+                  <Tooltip formatter={(value: number, name: string) => [value, name === 'quantitySold' ? 'Units sold' : 'Orders']} />
+                  <Bar dataKey="quantitySold" name="quantitySold" fill="#0ea5e9" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="orderCount" name="orderCount" fill="#22c55e" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="px-4 py-2 border-t border-slate-100 flex gap-6 text-xs text-slate-500">
+              <span><span className="inline-block w-3 h-3 rounded bg-[#0ea5e9] mr-1" /> Units sold</span>
+              <span><span className="inline-block w-3 h-3 rounded bg-[#22c55e] mr-1" /> Orders</span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Low stock table */}
