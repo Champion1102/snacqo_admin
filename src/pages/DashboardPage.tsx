@@ -127,7 +127,7 @@ export function DashboardPage() {
                 <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} tickFormatter={(v) => `₹${v}`} />
                 <Tooltip
-                  formatter={(value: number, name: string) => (name === 'Revenue (₹)' ? `₹${value}` : value)}
+                  formatter={(value: number | undefined, name?: string) => ((name ?? '') === 'Revenue (₹)' ? `₹${value ?? 0}` : (value ?? 0))}
                   labelFormatter={(_, payload) => (payload?.[0]?.payload as { dateShort?: string })?.dateShort}
                 />
                 <Area yAxisId="left" type="monotone" dataKey="orders" name="Orders" stroke="#0ea5e9" fill="#0ea5e9" fillOpacity={0.3} />
@@ -160,7 +160,7 @@ export function DashboardPage() {
                       <Cell key={entry.status} fill={STATUS_COLORS[entry.status] ?? `hsl(${index * 60}, 70%, 50%)`} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value: number) => [value, 'Orders']} />
+                  <Tooltip formatter={(value: number | undefined) => [value ?? 0, 'Orders']} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
@@ -184,7 +184,7 @@ export function DashboardPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis type="number" />
                   <YAxis type="category" dataKey="productName" width={90} tick={{ fontSize: 11 }} />
-                  <Tooltip formatter={(value: number, name: string) => [value, name === 'quantitySold' ? 'Units sold' : 'Orders']} />
+                  <Tooltip formatter={(value: number | undefined, name?: string) => [value ?? 0, (name ?? '') === 'quantitySold' ? 'Units sold' : 'Orders']} />
                   <Bar dataKey="quantitySold" name="quantitySold" fill="#0ea5e9" radius={[0, 4, 4, 0]} />
                   <Bar dataKey="orderCount" name="orderCount" fill="#22c55e" radius={[0, 4, 4, 0]} />
                 </BarChart>

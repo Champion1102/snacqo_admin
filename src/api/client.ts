@@ -37,7 +37,6 @@ export async function requestMultipart<T>(path: string, formData: FormData): Pro
   const res = await fetch(url, {
     method: 'POST',
     credentials: 'include',
-    headers,
     body: formData,
   });
   const data = await res.json().catch(() => ({}));

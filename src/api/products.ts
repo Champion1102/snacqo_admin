@@ -151,7 +151,7 @@ export function addVariant(
 ): Promise<{ variant: ProductVariant; product: Product }> {
   return request<{ variant: ProductVariant; product: Product }>(
     `/admin/products/${productId}/variants`,
-    { method: 'POST', body: body as Record<string, unknown> }
+    { method: 'POST', body: body as unknown as Record<string, unknown> }
   );
 }
 
@@ -162,7 +162,7 @@ export function updateVariant(
 ): Promise<{ variant: ProductVariant }> {
   return request<{ variant: ProductVariant }>(
     `/admin/products/${productId}/variants/${variantId}`,
-    { method: 'PATCH', body: body as Record<string, unknown> }
+    { method: 'PATCH', body: body as unknown as Record<string, unknown> }
   );
 }
 
