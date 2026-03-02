@@ -1,6 +1,4 @@
-import { request, setToken } from './client';
-
-export { setToken } from './client';
+import { request } from './client';
 
 export interface AdminUser {
   id: string;
@@ -12,19 +10,15 @@ export interface AdminUser {
 
 export interface AdminLoginResponse {
   user: AdminUser;
-  token: string;
 }
 
 /**
- * Admin login (email + password). Backend must expose e.g. POST /auth/admin-login.
+ * Admin login (email + password). Token is set in HttpOnly cookie by the backend.
  */
 export function adminLogin(email: string, password: string): Promise<AdminLoginResponse> {
   return request<AdminLoginResponse>('/auth/admin-login', {
     method: 'POST',
     body: { email: email.trim().toLowerCase(), password },
-  }).then((res) => {
-    setToken(res.token);
-    return res;
   });
 }
 
@@ -32,6 +26,7 @@ export function getMe(): Promise<{ user: AdminUser }> {
   return request('/auth/me');
 }
 
-export function clearAuthToken(): void {
-  setToken(null);
+/** Clear session (HttpOnly cookie) on the server. */
+export function logout(): Promise<void> {
+  return request('/auth/logout', { method: 'POST' }).then(() => undefined);
 }

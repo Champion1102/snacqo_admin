@@ -25,7 +25,7 @@ export function LoginPage() {
     setLoading(true);
     try {
       const res = await adminLogin(email, password);
-      setAuth({ user: res.user, token: res.token });
+      setAuth({ user: res.user });
       navigate(from, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed.');
